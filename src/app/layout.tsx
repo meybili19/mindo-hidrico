@@ -24,9 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+          <main style={{ flex: 1 }}>{children}</main>
+        </div>
       </body>
     </html>
   );

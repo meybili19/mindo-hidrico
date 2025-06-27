@@ -1,7 +1,12 @@
 .main {
+  min-height: calc(100vh - 100px); /* deja espacio para el footer */
   padding: 2rem;
   background-color: #f0fff0;
   font-family: 'Comic Sans MS', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 90px;
 }
 
 .intro {

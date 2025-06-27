@@ -1,5 +1,6 @@
 'use client';
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import dynamic from 'next/dynamic';
 const MapaUbicacionMindo = dynamic(() => import("../../components/MapaUbicacionMindo"), { ssr: false });
 
@@ -17,7 +18,7 @@ export default function ConoceMindo() {
 
         <section className={styles.section}>
           <h2>📍 ¿Dónde está Mindo?</h2>
-          <p>Mindo se encuentra en el noroccidente del Ecuador, entre montañas verdes y muchas nubes.</p>
+          <p>Mindo se encuentra en el norte del Ecuador y la única Parroquia del cantón San Miguel de Los Bancos en la provincia de Pichincha, a unos 80 km al noroeste de Quito. </p>
           <MapaUbicacionMindo />
         </section>
 
@@ -66,6 +67,7 @@ export default function ConoceMindo() {
           ➡️ ¡Descubre más sobre el agua!
         </a>
       </main>
+      <Footer />
     </>
   );
 }
