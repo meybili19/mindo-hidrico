@@ -1,5 +1,5 @@
 .main {
-  min-height: calc(100vh - 100px); /* deja espacio para el footer */
+  min-height: calc(100vh - 100px); 
   padding: 2rem;
   background-color: #f0fff0;
   font-family: 'Comic Sans MS', sans-serif;
