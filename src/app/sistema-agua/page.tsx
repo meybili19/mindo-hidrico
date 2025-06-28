@@ -31,11 +31,11 @@ export default function SistemaAguaPage() {
             <ul className={styles.list}>
               <li className={styles.listItem}>
                 <img src="/icons/nube.png" alt="Clima" width="20" className={styles.listItemImg} />
-                <strong>Climatológica:</strong> mide condiciones del clima
+                <strong>Estación de Captación:</strong> infraestructura que se construye para extraer agua de una fuente natural (superficial o subterránea) y conducirla hacia un sistema de abastecimiento o tratamiento.
               </li>
               <li className={styles.listItem}>
                 <img src="/icons/gota.png" alt="Lluvia" width="20" className={styles.listItemImg} />
-                <strong>Pluviométrica:</strong> mide la lluvia
+                <strong>Pluviométrica:</strong> medición de la cantidad de precipitación (lluvia, nieve, etc.) que cae en un lugar específico durante un período determinado
               </li>
               <li className={styles.listItem}>
                 <img src="/icons/rio.png" alt="Río" width="20" className={styles.listItemImg} />
