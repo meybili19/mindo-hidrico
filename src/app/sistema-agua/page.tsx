@@ -60,6 +60,13 @@ export default function SistemaAguaPage() {
             </ol>
           </div>
         </div>
+
+        <div className={styles.botonPrediccionWrapper}>
+          <a href="/prediccion" className={styles.botonPrediccion}>
+            🔮 Ir al Sistema de Predicción del Agua
+          </a>
+        </div>
+        
       </main>
       <Footer />
     </>

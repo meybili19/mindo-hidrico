@@ -118,3 +118,32 @@
     width: 100%;
   }
 }
+
+/*BOTON DE PREDICCION*/
+.botonPrediccionWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 3rem 0 2rem;
+}
+
+.botonPrediccion {
+  background-color: #0077b6;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 119, 182, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.botonPrediccion:hover {
+  background-color: #00b4d8;
+  color: #032b43;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 119, 182, 0.4);
+  border-color: #0077b6;
+}
+
