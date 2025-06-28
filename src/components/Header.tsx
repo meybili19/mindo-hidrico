@@ -9,7 +9,7 @@ export default function Header() {
       <nav className={styles.nav}>
         <Link href="/">Inicio</Link>
         <Link href="/conoce">Conoce Mindo</Link>
-        <Link href="/sabias">¿Qué tanto sabes?</Link>
+        <Link href="/sistema-agua">Sistema de Agua</Link>
         <Link href="/prediccion">Predicción</Link>
       </nav>
     </header>

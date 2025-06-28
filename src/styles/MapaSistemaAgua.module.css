@@ -1,0 +1,65 @@
+.mapaWrapper {
+  width: 100%;
+  max-width: 900px; /* opcional para limitar el ancho */
+  height: 400px; /* altura fija para el mapa */
+  margin: 0 auto; /* centrar horizontalmente */
+  border-radius: 10px;
+  overflow: hidden; /* para evitar que el mapa se salga */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+/* Tooltip principal */
+.customTooltip {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+  padding: 0; /* Padding lo lleva .tooltipContent */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.4s ease-in-out;
+
+  /* Fijamos tamaño en cm (adaptable en pantalla retina) */
+  width: 2cm;
+  max-width: 90vw;        /* No se desborda en móviles */
+  min-width: 7cm;
+  min-height: 2cm;
+  max-height: 5cm;
+  overflow: hidden;
+}
+
+/* Contenido del tooltip */
+.tooltipContent {
+  padding: 10px 12px;
+  font-size: 15px;
+  color: #333;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título */
+.tooltipContent strong {
+  color: #2196f3;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Descripción */
+.tooltipContent p {
+  margin: 0;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -2,9 +2,39 @@
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import dynamic from 'next/dynamic';
+import Carrusel from "../../components/CarruselFloraFauna";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 const MapaUbicacionMindo = dynamic(() => import("../../components/MapaUbicacionMindo"), { ssr: false });
 
 import styles from '../../styles/Conoce.module.css';
+
+const flora = [
+  { nombre: 'Orquídea', src: '/images/flora/orquidea.jpg' },
+  { nombre: 'Helecho', src: '/images/flora/helecho.jpg' },
+  { nombre: 'Bromelia', src: '/images/flora/bromelia.jpg' },
+  { nombre: 'Musgo', src: '/images/flora/musgo.jpg' },
+  { nombre: 'Cedro', src: '/images/flora/cedro.jpg' },
+  { nombre: 'Balsa', src: '/images/flora/balsa.jpg' },
+  { nombre: 'Teka', src: '/images/flora/teka.jpg' },
+  { nombre: 'Guaba', src: '/images/flora/guaba.jpg' },
+  { nombre: 'Aguacatillo', src: '/images/flora/aguacatillo.jpg' },
+  { nombre: 'Canelo Blanco', src: '/images/flora/caneloblanco.jpg' },
+];
+
+const fauna = [
+  { nombre: 'Tucán de Swainson', src: '/images/fauna/tucanSwainson.jpg' },
+  { nombre: 'Colibrí', src: '/images/fauna/colibri.jpg' },
+  { nombre: 'Mariposa Morfo', src: '/images/fauna/mariposa.jpg' },
+  { nombre: 'Rana de cristal', src: '/images/fauna/rana.jpeg' },
+  { nombre: 'Oso de Anteojos', src: '/images/fauna/oso.jpg' },
+  { nombre: 'Lagarto Pinocho', src: '/images/fauna/lagarto.jpg' },
+  { nombre: 'Perico Cola Larga', src: '/images/fauna/pericoColaLarga.jpg' },
+  { nombre: 'Quetzal', src: '/images/fauna/quetzal.jpg' },
+  { nombre: 'Tangara azul', src: '/images/fauna/tangara.jpg' },
+  { nombre: 'Murciélago frutero', src: '/images/fauna/murcielago.jpeg' },
+];
 
 export default function ConoceMindo() {
   return (
@@ -12,60 +42,39 @@ export default function ConoceMindo() {
       <Header />
       <main className={styles.main}>
         <h1>🌿 ¡Bienvenido a Mindo!</h1>
+        <br></br>
         <p className={styles.intro}>
-          Mindo es un lugar lleno de naturaleza, agua y vida. Aquí aprenderás de dónde viene el agua, a dónde va y por qué es tan importante cuidarla.
+          A solo 90 minutos de la ciudad Mitad del Mundo – Quito, Mindo te sumerge en el Chocó Andino, un refugio de biodiversidad. Aquí, la naturaleza cobra vida desde el vuelo matutino de colibríes hasta el coro nocturno de ranas, ofreciendo tanto aventura como paz. Con actividades como canyoning, canopy, o paseos tranquilos, Mindo es el escape perfecto cerca de la capital ecuatoriana para los entusiastas de la naturaleza. <br /><br />
+          Mindo, ubicado a 1,300 metros sobre el nivel del mar, disfruta de un clima húmedo y templado, con humedad del 70% al 90%. Este entorno favorece una biodiversidad excepcional, con temperaturas de 15°C a 24°C ideales para actividades al aire libre y exploración.
         </p>
 
         <section className={styles.section}>
           <h2>📍 ¿Dónde está Mindo?</h2>
-          <p>Mindo se encuentra en el norte del Ecuador y la única Parroquia del cantón San Miguel de Los Bancos en la provincia de Pichincha, a unos 80 km al noroeste de Quito. </p>
+          <p>Ubicado en el noroccidente de Ecuador, en el corazón del Chocó Andino, Mindo es parte de la Reserva de Biósfera reconocida por la UNESCO.</p>
           <MapaUbicacionMindo />
         </section>
 
         <section className={styles.section}>
-          <h2>💧 Captación de Agua en Mindo Pichán</h2>
-          <p>
-            La captación de Mindo Pichán aporta <strong>250 litros por segundo</strong> para abastecer barrios del norte de Quito como <em>Pisulí, La Roldós, El Bosque</em> y parte de <em>San Carlos</em>.
-          </p>
-          <p>
-            Este sistema incluye las captaciones de <strong>Pichá, Mindo Bajo y Mindo Medio</strong>, y el agua recorre un tramo de 21 km hasta la planta de tratamiento por medio de bombeo.
-          </p>
-          <p>
-            La Empresa Pública Metropolitana de Agua Potable y Saneamiento (Epmaps) trabaja día y noche para asegurar que el agua llegue limpia y suficiente a miles de hogares.
-          </p>
-          <p>
-            ¡Es importante usar el agua con responsabilidad para que nunca falte!
-          </p>
-        </section>
-
-        <section className={styles.section}>
-          <h2>🌸 Flora y Fauna de Mindo</h2>
-          <div className={styles.cards}>
-            <div className={styles.card}>
-              <h3>🐦 Tucanes</h3>
-              <p>Los coloridos tucanes vuelan entre los árboles de Mindo.</p>
+          <div className={styles.duoCarrusel}>
+            <div className={styles.carruselBox}>
+              <h2>🌿 Flora de Mindo</h2>
+              <p>Más de <strong>200 especies de flores</strong> únicas en un bosque húmedo que siempre florece.</p>
+              <Carrusel items={flora} />
             </div>
-            <div className={styles.card}>
-              <h3>🦋 Mariposas</h3>
-              <p>Mindo es famoso por sus mariposas de todos los colores.</p>
-            </div>
-            <div className={styles.card}>
-              <h3>🌳 Bosques Nublados</h3>
-              <p>Es el hogar de árboles gigantes cubiertos de musgo y orquídeas.</p>
+            <div className={styles.carruselBox}>
+              <h2>🦜 Fauna de Mindo</h2>
+              <p>Mindo es hogar de más de <strong>500 especies de aves</strong> y cientos de otros animales sorprendentes.</p>
+              <Carrusel items={fauna} />
             </div>
           </div>
         </section>
 
-        <section className={styles.section}>
-          <h2>🌊 ¿Y el agua?</h2>
-          <p>
-            En Mindo llueve mucho. El agua baja desde las montañas, forma ríos y llega hasta el océano. ¡Sin esta agua, muchas personas no tendrían qué beber!
-          </p>
-        </section>
+        <div className={styles.destacadoAgua}>
+          <a href="/sistema-agua" className={styles.linkAgua}>
+            💧 Mira aquí a dónde se dirige el agua que produce la región
+          </a>
+        </div>
 
-        <a className={styles.button} href="/sabias">
-          ➡️ ¡Descubre más sobre el agua!
-        </a>
       </main>
       <Footer />
     </>
