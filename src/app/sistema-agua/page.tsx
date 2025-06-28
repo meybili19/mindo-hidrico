@@ -18,7 +18,7 @@ export default function SistemaAguaPage() {
         </p>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>🗺️ Recorrido del agua</h2>
+          <h2 className={styles.sectionTitle}>🗺️ Recorrido del agua hacia la ciudad</h2>
           <p className={styles.sectionP}>
             A continuación, puedes ver en el mapa el camino que sigue el agua en la región, desde su captación hasta su salida:
           </p>
