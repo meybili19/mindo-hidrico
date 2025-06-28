@@ -9,7 +9,7 @@ export default function HomePage() {
     <div className={styles.container}>
       <Header />
       <main className={styles.main}>
-        <h1 className={styles.welcomeTitle}>💧 Bienvenidos al Sistema del Agua de Mindo</h1>
+        <h1 className={styles.welcomeTitle}>💧 Bienvenidos al Sistema del Agua - Estación Mindo</h1>
         <p className={styles.welcomeText}>
           Aprende cómo el agua nace en las montañas, fluye por los ríos y llega a nuestros hogares y al mar.  
           ¡Explora, descubre y cuida el agua con nosotros!
