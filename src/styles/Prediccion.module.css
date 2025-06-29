@@ -1,157 +1,31 @@
-/* Contenedor general de la página */
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Contenido entre header y footer */
 .main {
-  padding-top: 70px;   /* altura aproximada header fijo */
-  padding-bottom: 40px; /* espacio para footer */
-  min-height: calc(100vh - 70px - 40px);
+  flex: 1;  /* Hace que ocupe todo el espacio vertical restante */
   display: flex;
   justify-content: center;
   align-items: flex-start;
   background-color: #f0f9ff;
-  box-sizing: border-box;
+  padding-top: 70px;    /* Ajustar si el Header es fijo */
+  padding-bottom: 40px; /* Espacio para Footer si es fijo */
 }
 
 /* Contenedor del componente */
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f9ff;
+  padding: 20px;
   border-radius: 12px;
   font-family: 'Comic Sans MS', sans-serif;
   box-shadow: 0 0 10px rgba(0, 105, 96, 0.1);
-  padding: 20px;
-  background-color: #f0f9ff;
-}
-
-/* Títulos y botones */
-.title {
-  font-size: 1.8rem;
-  color: #00695c;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  font-weight: bold;
-}
-
-.variableButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.variableButton {
-  padding: 8px 16px;
-  background-color: #e0e0e0;
-  color: #000;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.variableButtonActive {
-  background-color: #0070f3;
-  color: #fff;
-}
-
-.monthButtons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.monthButton {
-  padding: 6px 12px;
-  background-color: #f3f4f6;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-weight: 600;
-}
-
-.monthButtonActive {
-  background-color: #34d399;
-  border-color: #34d399;
-  color: #fff;
-}
-
-.actionButtons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-.actionButton {
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  color: white;
-}
-
-.actionButtonPrimary {
-  background-color: #2563eb;
-}
-
-.actionButtonPrimary:hover {
-  background-color: #1e40af;
-}
-
-.actionButtonSecondary {
-  background-color: #ef4444;
-}
-
-.actionButtonSecondary:hover {
-  background-color: #b91c1c;
-}
-
-.predictionSection {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.predictionTitle {
-  font-size: 1.5rem;
-  color: #004d40;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.interpretationList {
-  margin-top: 20px;
-  list-style-type: none;
-  padding-left: 0;
-  font-size: 1rem;
-  color: #00332a;
-}
-
-.interpretationItem {
-  margin-bottom: 10px;
-  line-height: 1.4;
-}
-
-/* Responsive */
-
-@media (max-width: 600px) {
-  .variableButton,
-  .monthButton {
-    flex: 1 1 100%;
-    text-align: center;
-  }
-
-  .actionButtons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .container {
-    padding: 15px;
-    border-radius: 8px;
-  }
+  box-sizing: border-box;
 }
