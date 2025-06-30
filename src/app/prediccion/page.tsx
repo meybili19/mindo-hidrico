@@ -8,10 +8,15 @@ export default function Page() {
     return (
         <div className={styles.pageWrapper}>
             <Header />
-            <main className={styles.main}>
-                <div className={styles.container}>
+            <main className={styles.container}>
+                        <div className={styles.bannerIntro}>
+                        <h1 className={styles.bannerTitulo}>🌦️ Sistema Inteligente de Predicción Climática</h1>
+                        <p className={styles.bannerTexto}>
+                            Consulta las predicciones de precipitación, temperatura y viento para los próximos meses.
+                        </p>
+                    </div>
                     <PrediccionClimatica />
-                </div>
+          
             </main>
             <Footer />
         </div>

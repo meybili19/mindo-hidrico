@@ -18,14 +18,125 @@
 /* Contenedor del componente */
 .container {
   width: 100%;
-  max-width: 1000px;
+  flex: 1;
+  width: 100%;
+  height: 100%;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   background-color: #f0f9ff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   font-family: 'Comic Sans MS', sans-serif;
   box-shadow: 0 0 10px rgba(0, 105, 96, 0.1);
   box-sizing: border-box;
+  padding-top: 70px;   
+  padding-bottom: 40px;
+}
+.fullContent {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #f0f9ff;
+  border-radius: 12px;
+}
+
+/* Botones de variables */
+.variableButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.variableButton {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background-color: #e0e0e0;
+  color: #000;
+}
+
+.variableButton.active {
+  background-color: #0070f3;
+  color: #fff;
+}
+
+/* Botones de meses */
+.monthButtons {
+  margin-bottom: 20px;
+}
+
+.monthButton {
+  margin-right: 10px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #f3f4f6;
+}
+
+.monthButton.active {
+  background-color: #34d399;
+}
+
+/* Botones de acciones */
+.actionButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.predictButton {
+  background-color: #2563eb;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clearButton {
+  background-color: #ef4444;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Lista de interpretación */
+.predictionList {
+  margin-top: 20px;
+}
+
+.predictionItem {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+.tituloPrincipal {
+  margin-bottom: 16px; /* puedes ajustar si quieres más o menos espacio */
+}
+.bannerIntro {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.bannerTitulo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #034d5f;
+  margin-bottom: 10px;
+}
+
+.bannerTexto {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 5px;
 }

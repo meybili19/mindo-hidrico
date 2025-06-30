@@ -8,10 +8,10 @@ import {
     XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend
 } from 'recharts';
 
-import styles from '../../styles/Prediccion.module.css';
+import styles from '../styles/Prediccion.module.css';
 
 interface CustomTooltipProps extends Partial<TooltipProps<number, string>> {
-    payload?: { value?: number }[];  
+    payload?: { value?: number }[];
     label?: string;
 }
 
@@ -243,21 +243,14 @@ export default function PrediccionClimatica() {
     };
 
     return (
-        <div style={{ padding: '20px', backgroundColor: '#f0f9ff', borderRadius: '12px' }}>
-            <h2>📦 Elige qué quieres predecir:</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
+        <div className={styles.fullContent}>
+            <h2 className={styles.tituloPrincipal}>📦 Elige qué quieres predecir:</h2>
+            <div className={styles.variableButtons}>
                 {Object.entries(variables).map(([key, label]) => (
                     <button
                         key={key}
                         onClick={() => setVariable(key as VariableType)}
-                        style={{
-                            padding: '8px 16px',
-                            backgroundColor: variable === key ? '#0070f3' : '#e0e0e0',
-                            color: variable === key ? '#fff' : '#000',
-                            borderRadius: '8px',
-                            border: 'none',
-                            cursor: 'pointer'
-                        }}
+                        className={`${styles.variableButton} ${variable === key ? styles.active : ''}`}
                     >
                         {label}
                     </button>
@@ -265,63 +258,34 @@ export default function PrediccionClimatica() {
             </div>
 
             <h3>📅 ¿Cuántos meses quieres predecir?</h3>
-            {[1, 3, 6, 9, 12].map(n => (
-                <button
-                    key={n}
-                    onClick={() => setMeses(n)}
-                    style={{
-                        marginRight: '10px',
-                        padding: '6px 12px',
-                        backgroundColor: meses === n ? '#34d399' : '#f3f4f6',
-                        borderRadius: '6px',
-                        border: '1px solid #ccc',
-                        cursor: 'pointer'
-                    }}
-                >
-                    {n}
-                </button>
-            ))}
+            <div className={styles.monthButtons}>
+                {[1, 3, 6, 9, 12].map(n => (
+                    <button
+                        key={n}
+                        onClick={() => setMeses(n)}
+                        className={`${styles.monthButton} ${meses === n ? styles.active : ''}`}
+                    >
+                        {n}
+                    </button>
+                ))}
+            </div>
 
-            <div style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
-                <button
-                    onClick={obtenerPredicciones}
-                    style={{
-                        backgroundColor: '#2563eb',
-                        color: '#fff',
-                        padding: '10px 20px',
-                        border: 'none',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontWeight: 'bold'
-                    }}
-                >
+            <div className={styles.actionButtons}>
+                <button onClick={obtenerPredicciones} className={styles.predictButton}>
                     🔮 Ver predicción
                 </button>
-                <button
-                    onClick={limpiarPredicciones}
-                    style={{
-                        backgroundColor: '#ef4444',
-                        color: '#fff',
-                        padding: '10px 20px',
-                        border: 'none',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontWeight: 'bold'
-                    }}
-                >
+                <button onClick={limpiarPredicciones} className={styles.clearButton}>
                     🧹 Limpiar predicciones
                 </button>
             </div>
-
 
             {datos.length > 0 && (
                 <div style={{ marginTop: '40px' }}>
                     <h3>📊 Predicción para los próximos {meses} meses:</h3>
                     {renderGrafico()}
-
-                    <ul style={{ marginTop: '20px' }}>
+                    <ul className={styles.predictionList}>
                         {datos.map((item, idx) => (
-                            <li key={idx} style={{ marginBottom: '8px', fontSize: '16px' }}>
+                            <li key={idx} className={styles.predictionItem}>
                                 {interpretacion(variable, item.mes, item.valor, item.unidad, item.confianza)}
                             </li>
                         ))}
@@ -330,4 +294,5 @@ export default function PrediccionClimatica() {
             )}
         </div>
     );
+
 }
