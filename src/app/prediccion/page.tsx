@@ -2,8 +2,7 @@ import PrediccionClimatica from "@/components/PrediccionClimatica";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
-import styles from '../../styles/Prediccion.module.css';  // CSS del layout
-
+import styles from '../../styles/Prediccion.module.css';
 export default function Page() {
     return (
         <div className={styles.pageWrapper}>
