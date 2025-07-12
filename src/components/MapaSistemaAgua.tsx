@@ -218,7 +218,7 @@ export default function MapaSistemaAgua() {
   };
 
   return (
-    <div className={`${styles.main}`}>
+    <div className={styles.main}>
       <div className={styles.mapaWrapper}>
         <div className={styles.accionesMapa}>
           <button onClick={() => toggleFiltro('climatologicas')}>
