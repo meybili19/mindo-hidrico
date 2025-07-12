@@ -13,6 +13,7 @@ import {
 import L, { LatLngTuple } from 'leaflet';
 import styles from "../styles/MapaSistemaAgua.module.css";
 import 'leaflet/dist/leaflet.css';
+import { div } from 'framer-motion/client';
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: '/leaflet/marker-icon-2x.png',
@@ -217,103 +218,105 @@ export default function MapaSistemaAgua() {
   };
 
   return (
-    <div className={styles.mapaWrapper}>
-      <div className={styles.accionesMapa}>
-        <button onClick={() => toggleFiltro('climatologicas')}>
-          Estación de Captación {filtros.climatologicas ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('pluviometricas')}>
-          Pluviométricas {filtros.pluviometricas ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('aforo')}>
-          Ríos {filtros.aforo ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('plantas')}>
-          Plantas {filtros.plantas ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('barrios')}>
-          Barrios {filtros.barrios ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('cascadas')}>
-          Cascadas {filtros.cascadas ? '👁️' : '🚫'}
-        </button>
-        <button onClick={() => toggleFiltro('recorrido')}>
-          Recorrido {filtros.recorrido ? '👁️' : '🚫'}
-        </button>
-        <button onClick={reiniciarRecorrido}>🔄 Reiniciar Recorrido</button>
-      </div>
-      <MapContainer
-        center={[-0.139, -78.59]}
-        zoom={13}
-        scrollWheelZoom
-        style={{ height: '100%', width: '100%' }}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <AjustarVista puntos={puntosVisibles} />
+    <div className={`${styles.main}`}>
+      <div className={styles.mapaWrapper}>
+        <div className={styles.accionesMapa}>
+          <button onClick={() => toggleFiltro('climatologicas')}>
+            Estación de Captación {filtros.climatologicas ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('pluviometricas')}>
+            Pluviométricas {filtros.pluviometricas ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('aforo')}>
+            Ríos {filtros.aforo ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('plantas')}>
+            Plantas {filtros.plantas ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('barrios')}>
+            Barrios {filtros.barrios ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('cascadas')}>
+            Cascadas {filtros.cascadas ? '👁️' : '🚫'}
+          </button>
+          <button onClick={() => toggleFiltro('recorrido')}>
+            Recorrido {filtros.recorrido ? '👁️' : '🚫'}
+          </button>
+          <button onClick={reiniciarRecorrido}>🔄 Reiniciar Recorrido</button>
+        </div>
+        <MapContainer
+          center={[-0.139, -78.59]}
+          zoom={13}
+          scrollWheelZoom
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <AjustarVista puntos={puntosVisibles} />
 
-        {[...estaciones, ...cascadas].map((p, i) => {
-          let mostrar = false;
+          {[...estaciones, ...cascadas].map((p, i) => {
+            let mostrar = false;
 
-          if (esEstacion(p)) {
-            if (p.tipo === 'Planta' && filtros.plantas) mostrar = true;
-            else if (p.tipo === 'Distribución' && filtros.barrios) mostrar = true;
-            else if (p.tipo === 'Climatológica' && filtros.climatologicas) mostrar = true;
-            else if (p.tipo === 'Pluviométrica' && filtros.pluviometricas) mostrar = true;
-            else if (p.tipo === 'Aforo' && filtros.aforo) mostrar = true;
-          } else {
-            if (filtros.cascadas) mostrar = true;
-          }
+            if (esEstacion(p)) {
+              if (p.tipo === 'Planta' && filtros.plantas) mostrar = true;
+              else if (p.tipo === 'Distribución' && filtros.barrios) mostrar = true;
+              else if (p.tipo === 'Climatológica' && filtros.climatologicas) mostrar = true;
+              else if (p.tipo === 'Pluviométrica' && filtros.pluviometricas) mostrar = true;
+              else if (p.tipo === 'Aforo' && filtros.aforo) mostrar = true;
+            } else {
+              if (filtros.cascadas) mostrar = true;
+            }
 
-          if (!mostrar) return null;
+            if (!mostrar) return null;
 
-          return (
-            <Marker
-              key={`punto-${i}`}
-              position={p.coords}
-              icon={L.icon({
-                iconUrl: (p as any).icon ?? '/icons/cascada.png',
-                iconSize: [30, 30],
-                iconAnchor: [15, 30],
-                popupAnchor: [0, -30],
-              })}
-            >
-              <Tooltip
-                direction="top"
-                offset={[0, -20]}
-                opacity={1}
-                className={styles.customTooltip}
+            return (
+              <Marker
+                key={`punto-${i}`}
+                position={p.coords}
+                icon={L.icon({
+                  iconUrl: (p as any).icon ?? '/icons/cascada.png',
+                  iconSize: [30, 30],
+                  iconAnchor: [15, 30],
+                  popupAnchor: [0, -30],
+                })}
               >
-                <div className={styles.tooltipContent}>
-                  <strong>{p.nombre}</strong>
-                  <p>{p.descripcion}</p>
-                </div>
+                <Tooltip
+                  direction="top"
+                  offset={[0, -20]}
+                  opacity={1}
+                  className={styles.customTooltip}
+                >
+                  <div className={styles.tooltipContent}>
+                    <strong>{p.nombre}</strong>
+                    <p>{p.descripcion}</p>
+                  </div>
+                </Tooltip>
+              </Marker>
+            );
+          })}
+
+          {filtros.recorrido && (
+            <Polyline
+              positions={rutaAgua}
+              pathOptions={{ color: 'blue', weight: 4, dashArray: '10,10' }}
+            />
+          )}
+
+          {filtros.recorrido && gotitaIndex < rutaAgua.length && (
+            <Marker position={rutaAgua[gotitaIndex]} icon={gotaIcon}>
+              <Tooltip direction="right" offset={[10, 0]} opacity={1} permanent>
+                <span>
+                  {gotitaIndex === 0 && '💧 Inicia en la captación'}
+                  {gotitaIndex === 1 && '💧 Llega a la planta Uyuchul'}
+                  {gotitaIndex === 2 && '💧 Saliendo hacia Pisulí'}
+                  {gotitaIndex === 3 && '💧 Rumbo a La Roldós'}
+                  {gotitaIndex === 4 && '💧 Llegando a El Bosque'}
+                  {gotitaIndex === 5 && '💧 Finaliza en San Carlos'}
+                </span>
               </Tooltip>
             </Marker>
-          );
-        })}
-
-        {filtros.recorrido && (
-          <Polyline
-            positions={rutaAgua}
-            pathOptions={{ color: 'blue', weight: 4, dashArray: '10,10' }}
-          />
-        )}
-
-        {filtros.recorrido && gotitaIndex < rutaAgua.length && (
-          <Marker position={rutaAgua[gotitaIndex]} icon={gotaIcon}>
-            <Tooltip direction="right" offset={[10, 0]} opacity={1} permanent>
-              <span>
-                {gotitaIndex === 0 && '💧 Inicia en la captación'}
-                {gotitaIndex === 1 && '💧 Llega a la planta Uyuchul'}
-                {gotitaIndex === 2 && '💧 Saliendo hacia Pisulí'}
-                {gotitaIndex === 3 && '💧 Rumbo a La Roldós'}
-                {gotitaIndex === 4 && '💧 Llegando a El Bosque'}
-                {gotitaIndex === 5 && '💧 Finaliza en San Carlos'}
-              </span>
-            </Tooltip>
-          </Marker>
-        )}
-      </MapContainer>
+          )}
+        </MapContainer>
+      </div>
     </div>
   );
 }
