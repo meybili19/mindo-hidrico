@@ -5,10 +5,20 @@ import axios from 'axios';
 import {
     LineChart, Line, AreaChart, Area,
     TooltipProps,
-    XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend
+    XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend,
+    RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
-
+import dynamic from 'next/dynamic';
 import styles from '../styles/Prediccion.module.css';
+
+interface CustomTooltipProps extends Partial<TooltipProps<number, string>> {
+    payload?: { value?: number }[];
+    label?: string;
+}
+
+const RosaViento = dynamic(() => import('./RosaViento'), {
+    ssr: false
+});
 
 interface CustomTooltipProps extends Partial<TooltipProps<number, string>> {
     payload?: { value?: number }[];
@@ -29,42 +39,50 @@ const interpretacion = (
     mes: string,
     valor: number,
     unidad: string,
-    confianza: number
+    probabilidad: number
 ) => {
-    const iconoConfianza = confianza >= 85 ? "🟢 Confianza alta" : confianza >= 60 ? "🟡 Confianza media" : "🔴 Confianza baja";
+    const porcentaje = `${probabilidad}%`;
 
     switch (v) {
         case "precipitacion":
-            return valor > 150
-                ? `¡En ${mes} lloverá mucho! ☔ ¡Prepara tus botas! (${iconoConfianza} - ${confianza}%)`
-                : valor < 50
-                    ? `En ${mes} casi no lloverá. (${iconoConfianza} - ${confianza}%)`
-                    : `Lluvia moderada en ${mes}. (${iconoConfianza} - ${confianza}%)`;
+            if (valor > 150)
+                return `En ${mes} podrían caer muchas lluvias. ☔ Probabilidad: ${porcentaje}`;
+            else if (valor < 50)
+                return `En ${mes} casi no llovería. 🌤️ Probabilidad: ${porcentaje}`;
+            else
+                return `Lluvias normales en ${mes}. 🌦️ Probabilidad: ${porcentaje}`;
+
         case "temperatura":
-            return valor > 25
-                ? `¡En ${mes} hará más calor! 🔥 (${iconoConfianza} - ${confianza}%)`
-                : `Temperatura suave en ${mes}. (${iconoConfianza} - ${confianza}%)`;
+            if (valor > 26)
+                return `¡Calorcito en ${mes}! 🌞 Temperatura mayor a ${valor.toFixed(1)}°${unidad}. Probabilidad: ${porcentaje}`;
+            else if (valor < 18)
+                return `Será fresco en ${mes}, como para usar suéter. ❄️ Temperatura: ${valor.toFixed(1)}°${unidad}. Probabilidad: ${porcentaje}`;
+            else
+                return `Temperatura templada en ${mes}. 🌤️ ${valor.toFixed(1)}°${unidad}. Probabilidad: ${porcentaje}`;
+
         case "viento":
-            return valor > 3
-                ? `¡Vientos fuertes en ${mes}! 🍃 (${iconoConfianza} - ${confianza}%)`
-                : `Viento suave en ${mes}. (${iconoConfianza} - ${confianza}%)`;
+            if (valor > 3)
+                return `Vientos fuertes podrían soplar en ${mes}. 🍃 Velocidad: ${valor.toFixed(1)}${unidad}. Probabilidad: ${porcentaje}`;
+            else
+                return `Poco viento en ${mes}, ideal para jugar afuera. 🎈 Probabilidad: ${porcentaje}`;
+
         case "direccion":
-            return `En ${mes}, el viento vendrá de ${Math.round(valor)}°. ¡Como una visita del volcán! (${iconoConfianza} - ${confianza}%)`;
+            const direccionCardinal = gradosADireccion(valor);
+            return `En ${mes}, 💨 el viento soplaría desde el ${direccionCardinal} (${valor.toFixed(1)}°). Probabilidad: ${porcentaje}`;
+
         default:
             return "";
     }
 };
 
-// Convierte grados a dirección cardinal (8 puntos)
-function gradosADireccion(deg: number): string {
+export function gradosADireccion(deg: number): string {
     if (deg === null || deg === undefined) return "";
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
     const index = Math.round(deg / 45) % 8;
     return directions[index];
 }
 
-// Tooltip personalizado para variable "direccion"
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+export const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length && label) {
         const valorGrados = payload[0].value as number;
         const direccionCardinal = gradosADireccion(valorGrados);
@@ -114,33 +132,6 @@ export default function PrediccionClimatica() {
         direccion: "#034d5f"
     };
 
-    // Ajustar dominio dinámico para eje Y variable "direccion"
-    const calcularDominioDireccion = () => {
-        if (datos.length === 0) return [0, 360];
-
-        const valores = datos
-            .map(d => d.valor as number)
-            .filter(v => v !== null && v !== undefined);
-
-        if (valores.length === 0) return [0, 360];
-
-        const minValor = Math.min(...valores);
-        const maxValor = Math.max(...valores);
-
-        // Si rango es muy pequeño, poner mínimo rango para que se vea bien
-        if (maxValor - minValor < 10) {
-            // Por ejemplo ±5 grados para evitar escala muy estrecha
-            const minDominio = Math.max(0, minValor - 5);
-            const maxDominio = Math.min(360, maxValor + 5);
-            return [minDominio, maxDominio];
-        }
-
-        // Si rango amplio, añadir margen ±10 grados
-        const minDominio = Math.max(0, minValor - 10);
-        const maxDominio = Math.min(360, maxValor + 10);
-
-        return [minDominio, maxDominio];
-    };
     const renderGrafico = () => {
         switch (variable) {
             case "precipitacion":
@@ -206,36 +197,18 @@ export default function PrediccionClimatica() {
                                 type="monotone"
                                 dataKey="valor"
                                 stroke={colores.viento}
-                                strokeWidth={2}      // <-- Aquí
+                                strokeWidth={2}
                                 name={variables.viento}
                             />
                         </LineChart>
                     </ResponsiveContainer>
                 );
-
             case "direccion":
+                const datosDireccion = datos.map(d => ({ mes: d.mes, valor: d.valor }));
                 return (
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={datos}>
-                            <XAxis dataKey="mes" />
-                            <YAxis
-                                domain={calcularDominioDireccion()}
-                                tickCount={9}
-                                tickFormatter={(tick) => `${tick}°`}
-                            />
-                            <Tooltip content={<CustomTooltip />} />
-                            <CartesianGrid stroke="#ccc" />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="valor"
-                                stroke={colores.direccion}
-                                strokeWidth={2}      // <-- Y aquí también
-                                name={variables.direccion}
-                                dot={{ r: 5 }}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <RosaViento datos={datos} datosDireccion={datosDireccion} />
+                    </div>
                 );
             default:
                 return null;
@@ -244,7 +217,8 @@ export default function PrediccionClimatica() {
 
     return (
         <div className={styles.fullContent}>
-            <h2 className={styles.tituloPrincipal}>📦 Elige qué quieres predecir:</h2>
+            <h2 className={styles.tituloPrincipal}>📦 Elige qué quieres predecir:
+            </h2>
             <div className={styles.variableButtons}>
                 {Object.entries(variables).map(([key, label]) => (
                     <button
@@ -294,5 +268,4 @@ export default function PrediccionClimatica() {
             )}
         </div>
     );
-
 }
