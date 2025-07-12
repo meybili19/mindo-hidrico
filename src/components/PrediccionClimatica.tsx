@@ -92,7 +92,6 @@ export default function PrediccionClimatica() {
 
     const obtenerPredicciones = async () => {
         try {
-            const res = await axios.get("https://backend-mindo-prediccion.onrender.com/api/predicciones", {
                 params: { variable, meses }
             });
             setDatos(res.data.predicciones);
