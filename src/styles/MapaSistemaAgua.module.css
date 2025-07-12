@@ -52,6 +52,30 @@
   margin: 0;
 }
 
+.main,
+.title,
+.intro,
+.section,
+.sectionTitle,
+.sectionP,
+.listItem,
+.olItem,
+.card,
+.cardsContainer,
+.botonPrediccion,
+.botonPrediccionWrapper {
+  font-family: 'Comic Sans MS', sans-serif;
+}
+
+/* Fuerza Comic Sans MS en toda la sección del mapa */
+.mapaWrapper,
+.mapaWrapper button,
+.mapaWrapper .leaflet-tooltip,
+.mapaWrapper .tooltipContent,
+.mapaWrapper .leaflet-container {
+  font-family: 'Comic Sans MS', sans-serif !important;
+}
+
 /* Animación de aparición */
 @keyframes fadeIn {
   from {
