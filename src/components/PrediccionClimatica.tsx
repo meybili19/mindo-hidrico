@@ -7,6 +7,11 @@ import {
     TooltipProps,
     XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, Legend
 } from 'recharts';
+import dynamic from 'next/dynamic';
+
+const RosaViento = dynamic(() => import('./RosaViento'), {
+    ssr: false
+});
 
 import styles from '../styles/Prediccion.module.css';
 
@@ -19,7 +24,7 @@ const variables = {
     precipitacion: "☔ Precipitación",
     temperatura: "🌡️ Temperatura",
     viento: "🍃 Velocidad del viento",
-    direccion: "🧭 Dirección del viento"
+    direccion: "🗭 Dirección del viento"
 } as const;
 
 type VariableType = keyof typeof variables;
@@ -55,28 +60,26 @@ const interpretacion = (
     }
 };
 
-// Convierte grados a dirección cardinal (8 puntos)
-function gradosADireccion(deg: number): string {
-    if (deg === null || deg === undefined) return "";
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
-    const index = Math.round(deg / 45) % 8;
-    return directions[index];
+export function gradosADireccion(deg: number): string {
+  if (deg === null || deg === undefined) return "";
+  const directions = ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'];
+  const index = Math.round(deg / 45) % 8;
+  return directions[index];
 }
 
-// Tooltip personalizado para variable "direccion"
-const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
-    if (active && payload && payload.length && label) {
-        const valorGrados = payload[0].value as number;
-        const direccionCardinal = gradosADireccion(valorGrados);
-        return (
-            <div style={{ backgroundColor: '#fff', padding: '8px', border: '1px solid #ccc' }}>
-                <p><strong>{label}</strong></p>
-                <p>Grados: {valorGrados.toFixed(1)}°</p>
-                <p>Dirección: {direccionCardinal}</p>
-            </div>
-        );
-    }
-    return null;
+export const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+  if (active && payload && payload.length && label) {
+    const valorGrados = payload[0].value as number;
+    const direccionCardinal = gradosADireccion(valorGrados);
+    return (
+      <div style={{ backgroundColor: '#fff', padding: '8px', border: '1px solid #ccc' }}>
+        <p><strong>{label}</strong></p>
+        <p>Grados: {valorGrados.toFixed(1)}°</p>
+        <p>Dirección: {direccionCardinal}</p>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default function PrediccionClimatica() {
@@ -129,18 +132,17 @@ export default function PrediccionClimatica() {
 
         // Si rango es muy pequeño, poner mínimo rango para que se vea bien
         if (maxValor - minValor < 10) {
-            // Por ejemplo ±5 grados para evitar escala muy estrecha
             const minDominio = Math.max(0, minValor - 5);
             const maxDominio = Math.min(360, maxValor + 5);
             return [minDominio, maxDominio];
         }
 
-        // Si rango amplio, añadir margen ±10 grados
         const minDominio = Math.max(0, minValor - 10);
         const maxDominio = Math.min(360, maxValor + 10);
 
         return [minDominio, maxDominio];
     };
+
     const renderGrafico = () => {
         switch (variable) {
             case "precipitacion":
@@ -206,36 +208,18 @@ export default function PrediccionClimatica() {
                                 type="monotone"
                                 dataKey="valor"
                                 stroke={colores.viento}
-                                strokeWidth={2}      // <-- Aquí
+                                strokeWidth={2}
                                 name={variables.viento}
                             />
                         </LineChart>
                     </ResponsiveContainer>
                 );
-
             case "direccion":
+                const datosDireccion = datos.map(d => ({ mes: d.mes, valor: d.valor }));
                 return (
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={datos}>
-                            <XAxis dataKey="mes" />
-                            <YAxis
-                                domain={calcularDominioDireccion()}
-                                tickCount={9}
-                                tickFormatter={(tick) => `${tick}°`}
-                            />
-                            <Tooltip content={<CustomTooltip />} />
-                            <CartesianGrid stroke="#ccc" />
-                            <Legend />
-                            <Line
-                                type="monotone"
-                                dataKey="valor"
-                                stroke={colores.direccion}
-                                strokeWidth={2}      // <-- Y aquí también
-                                name={variables.direccion}
-                                dot={{ r: 5 }}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <RosaViento datos={datos} datosDireccion={datosDireccion} />
+                    </div>
                 );
             default:
                 return null;
@@ -244,7 +228,8 @@ export default function PrediccionClimatica() {
 
     return (
         <div className={styles.fullContent}>
-            <h2 className={styles.tituloPrincipal}>📦 Elige qué quieres predecir:</h2>
+            <h2 className={styles.tituloPrincipal}>📦 Elige qué quieres predecir:
+            </h2>
             <div className={styles.variableButtons}>
                 {Object.entries(variables).map(([key, label]) => (
                     <button
@@ -294,5 +279,4 @@ export default function PrediccionClimatica() {
             )}
         </div>
     );
-
 }
